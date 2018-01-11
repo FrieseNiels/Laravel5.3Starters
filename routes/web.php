@@ -24,3 +24,11 @@ Route::get('widget/{id}-{slug?}', ['as' => 'widget.show', 'uses'=> 'WidgetContro
 Route::resource('widget', 'WidgetController', ['except' => ['show', 'create']]);
 
 Route::get('admin', ['as' => 'admin', 'uses'=> 'AdminController@index']);
+
+Route::get('terms-of-service', 'PagesController@terms');
+
+Route::get('privacy', 'PagesController@privacy');
+
+Route::get('auth/{provider}', 'Auth\AuthController@redirectToProvider');
+
+Route::get('auth/{provider}/callback', 'Auth\AuthController@handleProviderCallback');
