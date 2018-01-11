@@ -14,7 +14,7 @@
 Route::get('/','PagesController@index');
 
 //test route
-Route::get('test','TestController@index');
+Route::get('test', ['middleware' => 'auth', 'uses' => 'TestController@index']);
 Auth::routes();
 
 Route::get('widget/create', ['as' => 'widget.create', 'uses'=> 'WidgetController@create']);
@@ -23,3 +23,4 @@ Route::get('widget/{id}-{slug?}', ['as' => 'widget.show', 'uses'=> 'WidgetContro
 
 Route::resource('widget', 'WidgetController', ['except' => ['show', 'create']]);
 
+Route::get('admin', ['as' => 'admin', 'uses'=> 'AdminController@index']);

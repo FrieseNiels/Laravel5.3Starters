@@ -3,6 +3,7 @@
 namespace App\Exceptions;
 
 use Exception;
+use App\Exceptions\NoActiveAccountException;
 use App\Exceptions\UnauthorizedException;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -57,6 +58,9 @@ class Handler extends ExceptionHandler
             case ($exception instanceof UnauthorizedException):
                 return $this->renderException($exception);
                 break;
+            case ($exception instanceof NoActiveAccountException):
+                return $this->renderException($exception);
+                break;
 
             default:
                 return parent::render($request, $exception);
@@ -74,6 +78,9 @@ class Handler extends ExceptionHandler
                 break;
             case ($exception instanceof UnauthorizedException):
                 return response()->view('errors.unauthorized');
+                break;
+            case ($exception instanceof NoActiveAccountException):
+                return response()->view('errors.no-active-account');
                 break;
 
             default:

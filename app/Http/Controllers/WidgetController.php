@@ -16,7 +16,7 @@ class WidgetController extends Controller
     public function __construct()
     {
 
-        $this->middleware('auth', ['except' => ['index', 'show']] );
+        $this->middleware(['auth', 'admin'],['except' => ['index']] );
 
     }
 
@@ -103,6 +103,10 @@ class WidgetController extends Controller
     {
         $widget = Widget::findOrFail($id);
 
+        if(!$this->adminOrCurrentUsersOwns($widget)){
+            throw new UnauthorizedException;
+        }
+
         return view('widget.edit', compact('widget'));
     }
 
@@ -121,7 +125,7 @@ class WidgetController extends Controller
 
         $widget = Widget::findOrFail($id);
 
-        if($this->userNotOwnerOf($widget)){
+        if(!$this->adminOrCurrentUsersOwns($widget)){
             throw new UnauthorizedException;
         }
 
